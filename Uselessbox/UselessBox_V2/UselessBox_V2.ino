@@ -2,6 +2,7 @@
 #include <LiquidCrystal.h>
 #include <Wire.h>
 #include "RTClib.h"
+#include <dht.h>
 
 // LCD setup:
 // VSS - gnd
@@ -10,10 +11,10 @@
 // RS  - 12
 // RW  - gnd
 // E   - 11
-// D4  - 2
-// D5  - 3
-// D6  - 4
-// D7  - 5
+// D4  - 4
+// D5  - 5
+// D6  - 6
+// D7  - 7
 // A   - gnd
 // K   - 5v (with 330Ω)
 
@@ -23,21 +24,21 @@
 // pin3 - 5V
 
 // RTC setup
-// SCL  - A5
-// SDA  - A4
+// SCL  - 21
+// SDA  - 20
 // VCC  - 5V
 // GND  - GND
+dht DHT;
 
 RTC_DS1307 RTC;
-
-LiquidCrystal lcd( 12, 11, 2, 3, 4, 5);
+LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
 Servo doorServo;
 Servo fingerServo;
 
+#define DHT11_PIN 8
+
 int swPin = 2;               //switch on pin 2
-
 int pos = 0;
-
 int selectedMove = 0;             //move selector
 
 void setup()
@@ -67,8 +68,8 @@ void setup()
 
 
 void loop() {
-
   // put your main code here, to run repeatedly:
+   
   DateTime now = RTC.now();
   lcd.print(now.day(), DEC);
   lcd.print('/');
@@ -85,6 +86,12 @@ void loop() {
   lcd.println();
   delay(1000);
   lcd.clear();
+
+  DHT.read11(DHT11_PIN);
+  Serial.print("Temperature = ");
+  Serial.println(DHT.temperature);
+  Serial.print("Humidity = ");
+  Serial.println(DHT.humidity);
 
   //if the switch is on, move door and finger to switch it off
   if (digitalRead(swPin) == HIGH)
