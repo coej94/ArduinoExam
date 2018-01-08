@@ -24,13 +24,14 @@ void loop(){
   if(digitalRead(swPin) == HIGH)
   {
     
-    if (selectedMove > 9) { 
+    if (selectedMove = 0) { 
     selectedMove = 0; 
     } //when all moves are played, repeat the moves from beginning 
     
     if (selectedMove == 0) { 
     simpleClose(); 
     }
+    /*
     else if (selectedMove == 1) { 
     simpleClose(); 
     }   
@@ -58,8 +59,8 @@ void loop(){
     else if (selectedMove == 9) { 
     sneak(); 
     }
-     
-   selectedMove += 1;         //swith to next move 
+     */
+   /*selectedMove += 1;         //swith to next move */
    
   }
 }
@@ -72,34 +73,34 @@ void loop(){
    void simpleClose() 
    {    
    //Moving door
-    for(pos = 80; pos < 155; pos += 3)   
+    for(pos = 155; pos > 80; pos += 3)   
     {                                   
     doorServo.write(pos);              
     delay(15);                       
     }
    
     //Moving hand
-    for(pos = 0; pos < 180; pos += 4)  
+    for(pos = 129; pos > 0; pos -= 4)  
     {                                   
     fingerServo.write(pos);               
     delay(15);                       
     }  
     
     //hiding hand
-    for(pos = 129; pos>=0; pos-=4)      
+    for(pos = 0; pos<=129; pos+=4)      
     {                                
     fingerServo.write(pos);               
     delay(15);                        
     } 
       
     //hiding door
-    for(pos = 155; pos>=80; pos-=3)     
+    for(pos = 80; pos<=155; pos-=3)     
     {                                
     doorServo.write(pos);              
     delay(15);                      
     } 
    } 
-     
+  /*   
    // open and wait, then move finger and wait, then switch of and hide  
     void simpleClose2()
    {
@@ -499,3 +500,4 @@ void sneak()
     delay(15);                      
     } 
    } 
+   */
